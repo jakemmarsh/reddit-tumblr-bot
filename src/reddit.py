@@ -1,9 +1,12 @@
-import praw
+import praw, ConfigParser
+
+config = ConfigParser.RawConfigParser()
+config.read('settings.cfg')
 
 class API(object):
     # initialize reddit client
     def __init__(self):
-        self.r = praw.Reddit(user_agent='listentothis blog bot by enkarta')
+        self.r = praw.Reddit(user_agent=config.get('reddit', 'userAgent'))
         
     # get new posts from a subreddit
     def getNewPosts(self, subreddit = 'listentothis', limit = 100, after = None):

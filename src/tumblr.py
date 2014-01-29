@@ -1,15 +1,18 @@
-import pytumblr
+import pytumblr, ConfigParser, urllib
+
+config = ConfigParser.RawConfigParser()
+config.read('settings.cfg')
 
 class API(object):
     # initialize Tumblr client
     def __init__(self):
         self.t = pytumblr.TumblrRestClient(
-            '<consumer_key>',
-            '<consumer_secret>',
-            '<oauth_token>',
-            '<oauth_secret>',
+            config.get('tumblr', 'consumerKey'),
+            config.get('tumblr', 'consumerSecret'),
+            config.get('tumblr', 'oauthToken'),
+            config.get('tumblr', 'oauthSecret'),
         )
-        self.blogName = "thenewmusicmachine"
+        self.blogName = config.get('tumblr', 'blogName')
         
     # create a Tumblr post of type audio
     def createAudioPost(self, post):
