@@ -1,18 +1,19 @@
 import tumblr, reddit
 
 class Bot():
-    def __init__(self):
+    def __init__(self, subreddit = 'listentothis'):
         self.redditAPI = reddit.API()
         self.tumblrAPI = tumblr.API()
+        self.subreddit = subreddit
         self.latest = None
         
     # get posts from /r/listentothis via reddit API
     def getRedditPosts(self):
         # check to see if query should be paginated
         if(self.latest is not None):
-            posts = self.redditAPI.getNewPosts(after=self.latest)
+            posts = self.redditAPI.getNewPosts(subreddit=self.subreddit, after=self.latest)
         else:
-            posts = self.redditAPI.getNewPosts()
+            posts = self.redditAPI.getNewPosts(subreddit=self.subreddit)
         
         # update self.latest for later paginated queries
         self.latest = posts[0].id

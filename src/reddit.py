@@ -9,7 +9,7 @@ class API(object):
         self.r = praw.Reddit(user_agent=config.get('reddit', 'userAgent'))
         
     # get new posts from a subreddit
-    def getNewPosts(self, subreddit = 'listentothis', limit = 100, after = None):
+    def getNewPosts(self, subreddit, limit = 100, after = None):
         if(after):
             posts = self.r.get_subreddit(subreddit).get_new(limit=limit, after=after)
         else:
