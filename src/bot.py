@@ -84,16 +84,12 @@ class Bot():
             
             # get URL
             formattedPost['url'] = post.url
-            
             # get artist
             formattedPost['artist'], remainingTitle = self.getSongArtist(post.title)
-            
             # get song title
             formattedPost['songTitle'], remainingTitle = self.getSongTitle(remainingTitle)
-            
             # get genres
             formattedPost['genres'], remainingTitle = self.getSongGenres(remainingTitle)
-            
             # get year
             formattedPost['songYear'] = self.getSongYear(remainingTitle)
                 
@@ -105,11 +101,13 @@ class Bot():
     def createTumblrPosts(self, redditPosts):  
         for post in redditPosts:
             # do something with video links
-            if('youtube' in post['url'].lower() or 'vimeo' in post['url'].lower()):
+            # TODO: use regex?
+            if('youtube.com' in post['url'].lower() or 'vimeo.com' in post['url'].lower()):
                 self.tumblrAPI.createVideoPost(post)
             
             # do something with audio links
-            elif('soundcloud' in post['url'].lower() or 'bandcamp' in post['url'].lower()):
+            # TODO: use regex?
+            elif('soundcloud.com' in post['url'].lower() or 'bandcamp.com' in post['url'].lower()):
                 self.tumblrAPI.createAudioPost(post)
         
     # query for reddit posts and subsequently create Tumblr posts
