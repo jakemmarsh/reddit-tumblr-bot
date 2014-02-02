@@ -62,11 +62,15 @@ class Bot():
         year = ''
         for i in range(0, len(remainingPostTitle)):
             if(remainingPostTitle[i] == '('):
-                while(remainingPostTitle[i+1] != ')'):
+                while(remainingPostTitle[i+1] != ')' and remainingPostTitle[i+1].isdigit()):
                     year += str(remainingPostTitle[i+1])
                     i += 1
                 else:
-                    return year
+                    # only return year if a valid one was found
+                    if(len(year) > 0):
+                        return year
+                    else:
+                        return None
     
     # pull necessary information from reddit posts
     def getFormattedRedditPosts(self):
