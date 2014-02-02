@@ -101,10 +101,15 @@ class Bot():
     # create Tumblr posts for all retrieved reddit posts
     def createTumblrPosts(self, redditPosts):  
         for post in redditPosts:
-            # do something with video links
+            # do something with youtube links
             # TODO: use regex?
-            if('youtube.com' in post['url'].lower() or 'vimeo.com' in post['url'].lower()):
-                self.tumblrAPI.createVideoPost(post)
+            if('youtube.com' in post['url'].lower()):
+                self.tumblrAPI.createYoutubePost(post)
+                
+            # do something with vimeo links
+            # TODO: use regex?
+            if('vimeo.com' in post['url'].lower()):
+                self.tumblrAPI.createVimeoPost(post)
             
             # do something with audio links
             # TODO: use regex?
