@@ -1,14 +1,15 @@
-import tumblr, reddit
+import tumblr, reddit, sched, time
 
 class Bot():
-    def __init__(self, subreddit = 'listentothis'):
+    def __init__(self, subreddit, timer):
         self.redditAPI = reddit.API()
         self.tumblrAPI = tumblr.API()
         self.subreddit = subreddit
+        self.timer = timer
         self.latest = None
         
-    # get posts from /r/listentothis via reddit API
-    def getRedditPosts(self):
+    # get latest posts from specified subreddit via reddit API
+    def getLatestRedditPosts(self):
         # check to see if query should be paginated
         if(self.latest is not None):
             posts = self.redditAPI.getNewPosts(subreddit=self.subreddit, after=self.latest)
@@ -74,12 +75,12 @@ class Bot():
     
     # pull necessary information from reddit posts
     def getFormattedRedditPosts(self):
-        redditPosts = self.getRedditPosts()
+        redditPosts = self.getLatestRedditPosts()
         
         formattedPosts = []
         
         for post in redditPosts:
-            print "\n", post.title
+            #print "\n", post.title
             formattedPost = {}
             
             # get URL
@@ -111,5 +112,13 @@ class Bot():
                 self.tumblrAPI.createAudioPost(post)
         
     # query for reddit posts and subsequently create Tumblr posts
-    def process(self):
+    def process(self, sc):
         self.createTumblrPosts(self.getFormattedRedditPosts())
+        sc.enter(self.timer, 1, self.process, (sc,))
+        
+    def run(self):
+        # scheduler to check for posts periodically
+        sc = sched.scheduler(time.time, time.sleep) 
+        # check for posts immediately, then once every 30 minutes
+        self.process(sc,)
+        sc.run()
