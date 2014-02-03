@@ -1,4 +1,4 @@
-import pytumblr, ConfigParser, re
+import pytumblr, ConfigParser, re, sys
 
 config = ConfigParser.RawConfigParser()
 config.read('settings.cfg')
@@ -25,9 +25,9 @@ class API(object):
         audioCaption = audioCaption.encode("utf-8")
         
         try:
-            self.t.create_audio(self.blogName, caption=audioCaption, tags=post['genres'], external_url=post['url'])
+            print self.t.create_audio(self.blogName, caption=audioCaption, tags=post['genres'], external_url=post['url'])
         except:
-            print "failed to create audio post"
+            print "failed to create audio post:", sys.exc_info()[0]
         
     # create a Tumblr post for youtube video
     def createYoutubePost(self, post):
@@ -51,9 +51,9 @@ class API(object):
         embedString = '<iframe id="ytplayer" type="text/html" width="640" height="390" src="http://www.youtube.com/embed/' + videoId + '?frameborder="0"/>'
             
         try:
-            self.t.create_video(self.blogName, caption=videoCaption, tags=post['genres'], embed=embedString)
+            print self.t.create_video(self.blogName, caption=videoCaption, tags=post['genres'], embed=embedString)
         except:
-            print "failed to create youtube post"
+            print "failed to create youtube post:", sys.exc_info()[0]
         
     # create a Tumblr post for vimeo video
     def createVimeoPost(self, post):
@@ -77,9 +77,9 @@ class API(object):
         embedString = '<iframe src="//player.vimeo.com/video/' + videoId + '" width="640" height="390" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>'
             
         try:
-            self.t.create_video(self.blogName, caption=videoCaption, tags=post['genres'], embed=embedString)
+            print self.t.create_video(self.blogName, caption=videoCaption, tags=post['genres'], embed=embedString)
         except:
-            print "failed to create vimeo post"
+            print "failed to create vimeo post:", sys.exc_info()[0]
         
     # create a Tumblr post of type link
     def createLinkPost(self, post):
@@ -92,6 +92,6 @@ class API(object):
         linkTitle = linkTitle.encode("utf-8")
         
         try:
-            self.t.create_link(self.blogName, title=linkTitle, tags=post['genres'], url=str(post['url']))
+            print self.t.create_link(self.blogName, title=linkTitle, tags=post['genres'], url=str(post['url']))
         except:
             print "failed to create link post"
