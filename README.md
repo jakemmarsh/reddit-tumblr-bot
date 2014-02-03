@@ -29,4 +29,4 @@ seconds : THE NUMBER OF SECONDS TO WAIT IN BETWEEN RETRIEVING/CREATING POSTS
 
 **A few notes:**
 - The configuration file should be titled 'settings.cfg' and should be placed in the same directory as the source `.py` files
-- All parameters drawn from the config file are automatically strings. Quotes are not necessary, and for things like the number of seconds they must be cast as `int`s when used (this is already done for you).
+- All parameters drawn from the config file are automatically strings. Quotes are not necessary, and for things like the number of seconds they must be cast as `int` when used (this is already done for you).
