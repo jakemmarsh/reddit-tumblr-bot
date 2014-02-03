@@ -1,4 +1,4 @@
-import tumblr, reddit, sched, time
+import tumblr, reddit, time
 
 class Bot():
     def __init__(self, subreddit, timer):
@@ -117,13 +117,10 @@ class Bot():
                 self.tumblrAPI.createAudioPost(post)
         
     # query for reddit posts and subsequently create Tumblr posts
-    def process(self, sc):
+    def process(self):
         self.createTumblrPosts(self.getFormattedRedditPosts())
-        sc.enter(self.timer, 1, self.process, (sc,))
         
     def run(self):
-        # scheduler to check for posts periodically
-        sc = sched.scheduler(time.time, time.sleep) 
-        # check for posts immediately, then once every 30 minutes
-        self.process(sc,)
-        sc.run()
+        while True:
+            self.process()
+            time.sleep(self.timer)
