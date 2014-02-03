@@ -11,7 +11,7 @@ class API(object):
     # get new posts from a subreddit
     def getNewPosts(self, subreddit, limit = 100, after = None):
         if(after):
-            posts = self.r.get_subreddit(subreddit).get_new(limit=limit, after=after)
+            posts = self.r.get_subreddit(subreddit).get_new(limit=limit, params={'after': after})
         else:
             posts = self.r.get_subreddit(subreddit).get_new(limit=limit)
         
