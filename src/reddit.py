@@ -9,7 +9,7 @@ class API(object):
         self.r = praw.Reddit(user_agent=config.get('reddit', 'userAgent'))
         
     # get new posts from a subreddit
-    def getNewPosts(self, subreddit, limit = 20, after = None):
+    def getNewPosts(self, subreddit, limit, after = None):
         if(after):
             posts = self.r.get_subreddit(subreddit).get_new(limit=limit, params={'after': after})
         else:
@@ -17,7 +17,8 @@ class API(object):
         
         return [post for post in posts]
     
-    def getHotPosts(self, subreddit, limit = 20, after = None):
+    # get hot posts from a subreddit
+    def getHotPosts(self, subreddit, limit, after = None):
         if(after):
             posts = self.r.get_subreddit(subreddit).get_hot(limit=limit, params={'after': after})
         else:

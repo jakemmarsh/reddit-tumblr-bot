@@ -1,24 +1,25 @@
 import tumblr, reddit, time
 
 class Bot():
-    def __init__(self, subreddit, timer, queryType):
+    def __init__(self, subreddit, queryType = 'hot', limit = 20, timer = 3600):
         self.redditAPI = reddit.API()
         self.tumblrAPI = tumblr.API()
         self.subreddit = subreddit
         self.timer = timer
         # build function name to make correct API call
         self.queryType = 'get' + queryType.lower().title() + 'Posts'
+        self.limit = limit
         self.latest = None
         
     # get latest posts from specified subreddit via reddit API
     def getLatestRedditPosts(self):
         # check to see if query should be paginated
         if(self.latest is not None):
-            # use getattr in order to use a variable as function call name
-            posts = getattr(self.redditAPI, self.queryType)(subreddit=self.subreddit, after=self.latest)
+            # use getattr in order to use variable as function call name
+            posts = getattr(self.redditAPI, self.queryType)(subreddit=self.subreddit, limit = self.limit, after=self.latest)
         else:
-            # use getattr in order to use a variable as function call name
-            posts = getattr(self.redditAPI, self.queryType)(subreddit=self.subreddit)
+            # use getattr in order to use variable as function call name
+            posts = getattr(self.redditAPI, self.queryType)(subreddit=self.subreddit, limit = self.limit)
         
         # update self.latest for later paginated queries
         self.latest = posts[0].id
