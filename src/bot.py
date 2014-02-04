@@ -87,18 +87,21 @@ class Bot():
             #print "\n", post.title
             formattedPost = {}
             
-            # get URL
-            formattedPost['url'] = post.url
-            # get artist
-            formattedPost['artist'], remainingTitle = self.getSongArtist(post.title)
-            # get song title
-            formattedPost['songTitle'], remainingTitle = self.getSongTitle(remainingTitle)
-            # get genres
-            formattedPost['genres'], remainingTitle = self.getSongGenres(remainingTitle)
-            # get year
-            formattedPost['songYear'] = self.getSongYear(remainingTitle)
-                
-            formattedPosts.append(formattedPost)
+            # only parse and save post if it isn't a self post
+            # TODO: use regex?
+            if('www.reddit.com' not in post.url.lower()):
+                # get URL
+                formattedPost['url'] = post.url
+                # get artist
+                formattedPost['artist'], remainingTitle = self.getSongArtist(post.title)
+                # get song title
+                formattedPost['songTitle'], remainingTitle = self.getSongTitle(remainingTitle)
+                # get genres
+                formattedPost['genres'], remainingTitle = self.getSongGenres(remainingTitle)
+                # get year
+                formattedPost['songYear'] = self.getSongYear(remainingTitle)
+                    
+                formattedPosts.append(formattedPost)
         
         return formattedPosts
     
