@@ -7,7 +7,7 @@ class Bot():
         self.subreddit = subreddit
         self.timer = timer
         # build function name to make correct API call
-        self.queryType = 'get' + queryType.lower().title() + 'Posts'
+        self.queryType = 'get%sPosts' % queryType.lower().title()
         self.limit = limit
         self.latest = None
         
