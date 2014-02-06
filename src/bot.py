@@ -22,7 +22,8 @@ class Bot():
             posts = getattr(self.redditAPI, self.queryType)(subreddit=self.subreddit, limit = self.limit)
         
         # update self.latest for later paginated queries
-        self.latest = posts[0].id
+        if(len(posts) > 0):
+            self.latest = posts[0].id
         
         return posts
         
@@ -126,8 +127,10 @@ class Bot():
         
     # query for reddit posts and subsequently create Tumblr posts
     def process(self):
-        self.createTumblrPosts(self.getFormattedRedditPosts())
-        
+        redditPosts = self.getFormattedRedditPosts()
+        if(len(redditPosts) > 0):
+            self.createTumblrPosts(redditPosts)
+    
     def run(self):
         while True:
             self.process()
