@@ -86,7 +86,6 @@ class Bot():
         formattedPosts = []
         
         for post in redditPosts:
-            #print "\n", post.title
             formattedPost = {}
             
             # only parse and save post if it isn't a self post
