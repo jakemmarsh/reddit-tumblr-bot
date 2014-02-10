@@ -23,7 +23,7 @@ class Bot():
         
         # update self.latest for later paginated queries
         if(len(posts) > 0):
-            self.latest = posts[0].id
+            self.latest = "t3_" + str(posts[-1].id)
         
         return posts
         
@@ -131,6 +131,12 @@ class Bot():
             self.createTumblrPosts(redditPosts)
     
     def run(self):
+        cycleCount = 0
         while True:
+            # start from beginning every 12 hours
+            if(cycleCount == 12):
+                self.latest = None
+                cycleCount = 0
             self.process()
+            cycleCount += 1
             time.sleep(self.timer)
