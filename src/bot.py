@@ -103,7 +103,9 @@ class Bot():
                 # get year
                 formattedPost['songYear'] = self.getSongYear(remainingTitle)
                     
-                formattedPosts.append(formattedPost)
+                # only process songs newer than 2012
+                if(formattedPost['songYear'] is not None and int(formattedPost['songYear']) > 2012):
+                    formattedPosts.append(formattedPost)
         
         return formattedPosts
     
