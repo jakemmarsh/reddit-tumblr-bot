@@ -6,7 +6,6 @@ class Bot():
         self.tumblrAPI = tumblr.API()
         self.subreddit = subreddit
         self.timer = timer
-        # build function name to make correct API call
         self.queryType = queryType.lower()
         self.limit = limit
         self.latest = None
