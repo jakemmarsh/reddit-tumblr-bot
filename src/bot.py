@@ -7,21 +7,13 @@ class Bot():
         self.subreddit = subreddit
         self.timer = timer
         # build function name to make correct API call
-        self.queryType = queryType
+        self.queryType = queryType.lower()
         self.limit = limit
         self.latest = None
 
     # get latest posts from specified subreddit via reddit API
     def getLatestRedditPosts(self):
-        functionName = 'get%sPosts' % self.queryType.lower().title()
-
-        # check to see if query should be paginated
-        if(self.latest is not None):
-            # use getattr in order to use variable as function call name
-            posts = getattr(self.redditAPI, functionName)(subreddit=self.subreddit, limit = self.limit, after=self.latest)
-        else:
-            # use getattr in order to use variable as function call name
-            posts = getattr(self.redditAPI, functionName)(subreddit=self.subreddit, limit = self.limit)
+        posts = self.redditAPI.getPosts(subreddit=self.subreddit,limit = self.limit, queryType = self.queryType, after=self.latest)
 
         # update self.latest for later paginated queries
         if(len(posts) > 0):

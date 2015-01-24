@@ -8,41 +8,22 @@ class API(object):
     def __init__(self):
         self.r = praw.Reddit(user_agent=config.get('reddit', 'userAgent'))
         self.alreadyProcessed = []
-        
+
     # get new posts from a subreddit
-    def getNewPosts(self, subreddit, limit, after = None):
+    def getPosts(self, subreddit, limit, queryType = 'hot', after = None):
         returnPosts = []
+        apiFunction = self.r.get_subreddit(subreddit).get_new if queryType == 'new' else self.r.get_subreddit(subreddit).get_hot
+
         if(after):
-            posts = self.r.get_subreddit(subreddit).get_new(limit=limit, params={'after': after})
+            posts = apiFunction(limit=limit, params={'after': after})
         else:
-            posts = self.r.get_subreddit(subreddit).get_new(limit=limit)
-        
+            posts = apiFunction(limit=limit)
+
         # make sure we're only returning posts that haven't already been retrieved before
         for post in posts:
             if(post.id not in self.alreadyProcessed):
                 returnPosts.append(post)
                 # mark as processed
                 self.alreadyProcessed.append(post.id)
-            else:
-                continue
-                
-        return returnPosts
-    
-    # get hot posts from a subreddit
-    def getHotPosts(self, subreddit, limit, after = None):
-        returnPosts = []
-        if(after):
-            posts = self.r.get_subreddit(subreddit).get_hot(limit=limit, params={'after': after})
-        else:
-            posts = self.r.get_subreddit(subreddit).get_hot(limit=limit)
-        
-        # make sure we're only returning posts that haven't already been retrieved before
-        for post in posts:
-            if(post.id not in self.alreadyProcessed):
-                returnPosts.append(post)
-                # mark as processed
-                self.alreadyProcessed.append(post.id)
-            else:
-                continue
-                
+
         return returnPosts
