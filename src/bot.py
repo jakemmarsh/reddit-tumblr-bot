@@ -23,14 +23,14 @@ class Bot():
     # get song artist from reddit post title
     def getSongArtist(self, postTitle):
         try:
-            return re.search('- (.+)', postTitle).groups()[0].replace('&amp;', '&')
+            return re.search('-{1,2} (.+) \[|\(', postTitle).groups()[0].replace('&amp;', '&')
         except:
             return None
 
     # get song title from reddit post title
     def getSongTitle(self, postTitle):
         try:
-            return re.search('(.+) -', postTitle).groups()[0]
+            return re.search('(.+) -{1,2}', postTitle).groups()[0]
         except:
             return None
 
@@ -53,7 +53,7 @@ class Bot():
     # get song year from reddit post title
     def getSongYear(self, postTitle):
         try:
-            return re.search('(\d+)', postTitle).groups()[0];
+            return re.search('\((\d+)\)', postTitle).groups()[0];
         except:
             return None
 
@@ -62,7 +62,7 @@ class Bot():
         redditPosts = self.getLatestRedditPosts()
         formattedPosts = []
 
-        for post in redditPosts:
+        for post in (x for x in redditPosts if x is not None):
             formattedPost = {}
 
             # only parse and save post if it isn't a self post
