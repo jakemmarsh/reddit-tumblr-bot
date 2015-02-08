@@ -16,8 +16,12 @@ class API(object):
 
     # build caption for post with available data
     def buildCaption(self, post):
-        caption = post['artist'] + ' - ' + post['songTitle']
+        caption = ''
 
+        if(post['artist'] is not None):
+          caption += post['artist']
+        if(post['songTitle'] is not None):
+          caption += ' - ' + post['songTitle']
         if(post['genres'] is not None):
             caption += ' [' + " / ".join(post['genres']) + ']'
         if(post['songYear'] is not None):
